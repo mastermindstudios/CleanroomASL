@@ -260,12 +260,12 @@ public class ASLClient
             var keepGoing = true
             var record = asl_next(results)
             while record != nil && keepGoing {
-                if let message = record![.message] {
-                    if let timestampStr = record![.time] {
+                if let message = record![ASLAttributeKey.message] {
+                    if let timestampStr = record![ASLAttributeKey.time] {
                         if let timestampInt = Int(timestampStr) {
                             var timestamp = TimeInterval(timestampInt)
 
-                            if let nanoStr = record![.timeNanoSec] {
+                            if let nanoStr = record![ASLAttributeKey.timeNanoSec] {
                                 if let nanoInt = Int(nanoStr) {
                                     let nanos = Double(nanoInt) / Double(NSEC_PER_SEC)
                                     timestamp += nanos
@@ -275,7 +275,7 @@ public class ASLClient
                             let logEntryTime = Date(timeIntervalSince1970: timestamp)
 
                             var priority = ASLPriorityLevel.notice
-                            if let logLevelStr = record![.level],
+                            if let logLevelStr = record![ASLAttributeKey.level],
                                 let logLevelInt = Int(logLevelStr),
                                 let level = ASLPriorityLevel(rawValue: Int32(logLevelInt))
                             {
